@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kaivan-workout-v2';
+const CACHE_NAME = 'kaivan-workout-v3';   // Increased version number
 
 const urlsToCache = [
   './',
