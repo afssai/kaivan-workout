@@ -20,9 +20,7 @@
 <!-- ============================ -->
 
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-
 <style>
-  /* Your entire original CSS - UNCHANGED */
   :root {
     --black:#080808; --dark:#111; --card:#181818; --card2:#1e1e1e;
     --border:#252525; --accent:#f0c040; --red:#e05a38; --green:#4caf82;
@@ -30,12 +28,169 @@
   }
   * { margin:0; padding:0; box-sizing:border-box; }
   body { background:var(--black); color:var(--text); font-family:'DM Sans',sans-serif; min-height:100vh; }
-  /* ... all your CSS remains exactly the same ... */
+
+  /* HEADER */
+  .top-header {
+    background:linear-gradient(135deg,#111 0%,#1a1408 100%);
+    border-bottom:2px solid var(--accent);
+    padding:18px 20px 14px;
+    text-align:center;
+  }
+  .brand-txt { font-family:'Bebas Neue',sans-serif; font-size:10px; letter-spacing:4px; color:var(--accent); margin-bottom:3px; }
+  .main-title { font-family:'Bebas Neue',sans-serif; font-size:28px; letter-spacing:2px; }
+  .subtitle { font-size:12px; color:var(--green); margin-top:3px; }
+
+  /* DAY TABS */
+  .day-tabs { background:var(--dark); border-bottom:1px solid var(--border); display:flex; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+  .day-tabs::-webkit-scrollbar { display:none; }
+  .day-btn {
+    flex:1; min-width:80px;
+    font-family:'Bebas Neue',sans-serif; font-size:13px; letter-spacing:1px;
+    padding:12px 8px; border:none; background:none; color:var(--muted);
+    border-bottom:3px solid transparent; cursor:pointer; transition:all .18s;
+    white-space:nowrap;
+  }
+  .day-btn:hover { color:var(--text); }
+  .day-btn.active { color:var(--accent); border-bottom-color:var(--accent); }
+  .day-btn .day-label { font-size:9px; letter-spacing:2px; display:block; margin-bottom:2px; }
+  .day-btn .day-name { font-size:11px; color:inherit; }
+  .day-btn.active .day-name { color:var(--accent); }
+
+  /* MAIN */
+  main { max-width:800px; margin:0 auto; padding:20px 14px 80px; }
+  .day-section { display:none; }
+  .day-section.active { display:block; }
+
+  .day-header {
+    background:linear-gradient(135deg,rgba(240,192,64,.08),rgba(240,192,64,.02));
+    border:1px solid rgba(240,192,64,.2);
+    border-radius:10px; padding:16px 18px; margin-bottom:20px;
+    display:flex; align-items:center; gap:14px;
+  }
+  .day-icon { font-size:28px; }
+  .day-title { font-family:'Bebas Neue',sans-serif; font-size:22px; letter-spacing:1px; }
+  .day-meta { font-size:12px; color:var(--muted); margin-top:2px; }
+  .day-badge {
+    margin-left:auto; background:var(--accent); color:var(--black);
+    font-family:'Bebas Neue',sans-serif; font-size:10px; letter-spacing:2px;
+    padding:4px 10px; border-radius:3px; flex-shrink:0;
+  }
+
+  /* EXERCISE CARD */
+  .ex-card {
+    background:var(--card); border:1px solid var(--border);
+    border-radius:10px; margin-bottom:14px; overflow:hidden;
+    transition:border-color .2s;
+  }
+  .ex-card:hover { border-color:#333; }
+
+  .ex-top {
+    display:grid;
+    grid-template-columns:110px 1fr;
+    gap:0;
+    min-height:90px;
+  }
+
+  /* THUMBNAIL */
+  .ex-thumb {
+    position:relative; width:110px; background:#0a0a0a;
+    display:flex; align-items:center; justify-content:center;
+    overflow:hidden; flex-shrink:0;
+    border-right:1px solid var(--border);
+  }
+  .ex-thumb img {
+    width:100%; height:100%; object-fit:cover;
+    transition:opacity .3s;
+  }
+  .ex-thumb .thumb-static { position:absolute; top:0; left:0; }
+  .ex-thumb .thumb-gif { position:absolute; top:0; left:0; opacity:0; }
+  .ex-card:hover .thumb-gif { opacity:1; }
+  .ex-card:hover .thumb-static { opacity:0; }
+  .ex-thumb .no-img {
+    display:flex; flex-direction:column; align-items:center;
+    justify-content:center; width:100%; height:100%; padding:8px;
+    text-align:center;
+  }
+  .no-img-icon { font-size:24px; margin-bottom:4px; }
+  .no-img-txt { font-size:9px; color:var(--muted); }
+
+  .jefit-link {
+    position:absolute; bottom:4px; right:4px;
+    background:rgba(240,192,64,.85); color:#000;
+    font-size:7px; font-weight:700; letter-spacing:1px;
+    padding:2px 5px; border-radius:2px; text-decoration:none;
+    text-transform:uppercase; z-index:2;
+  }
+
+  /* EXERCISE INFO */
+  .ex-info { padding:12px 14px; display:flex; flex-direction:column; justify-content:space-between; }
+  .ex-name { font-family:'Bebas Neue',sans-serif; font-size:17px; letter-spacing:.5px; margin-bottom:4px; }
+  .ex-tags { display:flex; flex-wrap:wrap; gap:4px; margin-bottom:8px; }
+  .tag { font-size:9px; font-weight:600; letter-spacing:.5px; padding:2px 7px; border-radius:2px; text-transform:uppercase; }
+  .tag-m { background:rgba(240,192,64,.12); color:var(--accent); border:1px solid rgba(240,192,64,.25); }
+  .tag-eq { background:rgba(255,255,255,.04); color:var(--muted); border:1px solid var(--border); }
+  .tag-beg { background:rgba(76,175,130,.1); color:var(--green); border:1px solid rgba(76,175,130,.2); }
+
+  .ex-sets-row { display:flex; align-items:center; gap:8px; }
+  .sets-pill {
+    background:rgba(240,192,64,.1); border:1px solid rgba(240,192,64,.2);
+    color:var(--accent); font-family:'Bebas Neue',sans-serif;
+    font-size:13px; letter-spacing:1px; padding:3px 10px; border-radius:4px;
+  }
+  .ex-cue { font-size:11px; color:#d4a830; font-style:italic; }
+
+  /* TRACKER ROW */
+  .ex-tracker {
+    padding:10px 14px 12px;
+    border-top:1px solid var(--border);
+    background:rgba(255,255,255,.015);
+  }
+  .tracker-label { font-size:10px; letter-spacing:2px; color:var(--muted); text-transform:uppercase; margin-bottom:6px; }
+  .sets-inputs { display:flex; gap:6px; flex-wrap:wrap; }
+  .set-box { flex:1; min-width:70px; }
+  .set-box label { font-size:9px; color:var(--muted); letter-spacing:1px; display:block; margin-bottom:3px; text-transform:uppercase; }
+  .set-input {
+    width:100%; background:var(--dark); border:1px solid var(--border);
+    border-radius:6px; padding:7px 9px; font-size:12px; color:var(--text);
+    font-family:'DM Sans',sans-serif; outline:none; transition:border-color .18s;
+  }
+  .set-input:focus { border-color:var(--accent); }
+  .set-input::placeholder { color:var(--muted); }
+
+  /* SAVE BTN */
+  .save-btn {
+    margin-top:8px; width:100%;
+    background:rgba(240,192,64,.1); border:1px solid rgba(240,192,64,.25);
+    color:var(--accent); font-family:'Bebas Neue',sans-serif;
+    font-size:12px; letter-spacing:2px; padding:8px;
+    border-radius:6px; cursor:pointer; transition:all .18s;
+  }
+  .save-btn:hover { background:rgba(240,192,64,.18); }
+  .save-btn.saved { background:rgba(76,175,130,.15); border-color:rgba(76,175,130,.3); color:var(--green); }
+
+  /* PROGRESS BAR */
+  .day-progress {
+    background:var(--dark); border:1px solid var(--border);
+    border-radius:8px; padding:12px 14px; margin-bottom:16px;
+  }
+  .prog-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+  .prog-label { font-size:11px; color:var(--muted); letter-spacing:1px; text-transform:uppercase; }
+  .prog-count { font-family:'Bebas Neue',sans-serif; font-size:18px; color:var(--accent); }
+  .prog-bar { height:4px; background:var(--border); border-radius:2px; overflow:hidden; }
+  .prog-fill { height:100%; background:var(--accent); border-radius:2px; transition:width .4s; }
+
+  /* HOVER HINT */
+  .hover-hint { text-align:center; font-size:10px; color:var(--muted); padding:6px 0 0; letter-spacing:1px; }
+
+  @media (max-width:480px) {
+    .ex-top { grid-template-columns:90px 1fr; }
+    .ex-thumb { width:90px; }
+    .main-title { font-size:22px; }
+  }
 </style>
 </head>
 <body>
 
-<!-- Your entire body content - UNCHANGED -->
 <div class="top-header">
   <div class="brand-txt">Spirit SP-3604 + Dumbbells</div>
   <div class="main-title">Kaivan's 5-Day Plan</div>
@@ -46,16 +201,285 @@
 <main id="mainContent"></main>
 
 <script>
-// Your entire JavaScript - 100% UNCHANGED
-// (I didn't modify anything here)
+// ─── EXERCISE DATABASE ───────────────────────────────────────────────────
+// jefit image pattern: static = /images/exercises/960_590/[imgId].jpg
+//                      gif    = /images/exercises/gif/[imgId].gif
+// confirmed: exercise 86 → imgId 344, exercise 21 → imgId 84 (ratio ×4)
+
+const BASE = 'https://www.jefit.com/images/exercises';
+const PAGE = 'https://www.jefit.com/exercises';
+
+function imgs(imgId) {
+  return {
+    static: `${BASE}/960_590/${imgId}.jpg`,
+    gif:    `${BASE}/gif/${imgId}.gif`
+  };
+}
+
+const EX = {
+  // ── DUMBBELL ──────────────────────────────────────────────────────────
+  'Flat Dumbbell Bench Press':       { ...imgs(104),  url:`${PAGE}/26/dumbbell-bench-press`,           muscles:'Chest · Shoulders · Triceps',  equip:'Dumbbell + Bench',  level:'Beginner' },
+  'Incline Dumbbell Bench Press':    { ...imgs(124),  url:`${PAGE}/31/dumbbell-incline-bench-press`,   muscles:'Upper Chest · Shoulders',      equip:'Dumbbell + Bench',  level:'Beginner' },
+  'Seated Dumbbell Shoulder Press':  { ...imgs(192),  url:`${PAGE}/48/dumbbell-seated-shoulder-press`, muscles:'Shoulders · Triceps',           equip:'Dumbbell + Bench',  level:'Beginner' },
+  'Dumbbell Lateral Raise':          { ...imgs(128),  url:`${PAGE}/32/dumbbell-lateral-raise`,         muscles:'Side Deltoid',                  equip:'Dumbbell',          level:'Beginner' },
+  'Dumbbell Bicep Curls':            { ...imgs(140),  url:`${PAGE}/35/dumbbell-alternating-bicep-curl`,muscles:'Biceps',                        equip:'Dumbbell',          level:'Beginner' },
+  'Single-Arm Dumbbell Row':         { ...imgs(168),  url:`${PAGE}/42/dumbbell-one-arm-row`,           muscles:'Mid Back · Biceps',             equip:'Dumbbell + Bench',  level:'Beginner' },
+  'Dumbbell Romanian Deadlifts':     { ...imgs(5732), url:`${PAGE}/1433/dumbbell-romanian-deadlift`,   muscles:'Hamstrings · Glutes · Back',    equip:'Dumbbell',          level:'Beginner' },
+  'Goblet Squats':                   { ...imgs(1680), url:`${PAGE}/420/dumbbell-goblet-squat`,         muscles:'Quads · Glutes · Core',         equip:'Dumbbell',          level:'Beginner' },
+  'Dumbbell Glute Bridges':          { ...imgs(2352), url:`${PAGE}/588/dumbbell-glute-bridge`,         muscles:'Glutes · Hamstrings',           equip:'Dumbbell',          level:'Beginner' },
+  'Dumbbell Bench Press':            { ...imgs(104),  url:`${PAGE}/26/dumbbell-bench-press`,           muscles:'Chest · Shoulders · Triceps',   equip:'Dumbbell + Bench',  level:'Beginner' },
+  // ── CABLE (Spirit SP-3604) ───────────────────────────────────────────
+  'Cable Lateral Raises':            { ...imgs(76),   url:`${PAGE}/19/cable-lateral-raise`,            muscles:'Side Deltoid',                  equip:'Cable Machine',     level:'Beginner' },
+  'Cable Tricep Pushdowns':          { ...imgs(636),  url:`${PAGE}/159/cable-tricep-pushdown-rope`,    muscles:'Triceps (all 3 heads)',          equip:'Cable + Rope',      level:'Beginner' },
+  'Cable Lat Pulldowns':             { ...imgs(344),  url:`${PAGE}/86/cable-lat-pulldown-wide-grip`,   muscles:'Lats · Upper Back · Biceps',    equip:'Cable + Wide Bar',  level:'Beginner' },
+  'Seated Cable Row':                { ...imgs(84),   url:`${PAGE}/21/cable-seated-row`,               muscles:'Mid Back · Rhomboids · Biceps', equip:'Cable + V-Bar',     level:'Beginner' },
+  'Cable Face Pulls':                { ...imgs(3496), url:`${PAGE}/874/cable-rope-face-pull`,          muscles:'Rear Delt · Traps · Posture',   equip:'Cable + Rope',      level:'Beginner' },
+  'Cable Pull-Throughs':             { ...imgs(1572), url:`${PAGE}/393/cable-pull-through`,            muscles:'Glutes · Hamstrings · Back',    equip:'Cable + Rope',      level:'Beginner' },
+  'Single-Arm Cable Rows':           { ...imgs(84),   url:`${PAGE}/21/cable-seated-row`,               muscles:'Mid Back · Core',               equip:'Cable + Handle',    level:'Intermediate' },
+  'Cable Chest Flyes':               { ...imgs(308),  url:`${PAGE}/77/cable-crossover`,                muscles:'Chest · Front Delt',            equip:'Cable Machine',     level:'Intermediate' },
+  'Cable Rows':                      { ...imgs(84),   url:`${PAGE}/21/cable-seated-row`,               muscles:'Mid Back · Rhomboids · Biceps', equip:'Cable + V-Bar',     level:'Beginner' },
+  // ── BODYWEIGHT ──────────────────────────────────────────────────────
+  'Plank':                           { static:null, gif:null, url:`${PAGE}/192/plank`,                 muscles:'Core · Abs · Stability',        equip:'Bodyweight',        level:'Beginner', emoji:'⏱️' },
+};
+
+// ─── 5-DAY PROGRAM ───────────────────────────────────────────────────────
+const PLAN = [
+  {
+    title:'Push', subtitle:'Chest · Shoulders · Triceps', icon:'🔴',
+    exercises:[
+      { name:'Flat Dumbbell Bench Press',       sets:4, reps:'8–12', cue:'Lie flat, lower to chest, press up' },
+      { name:'Incline Dumbbell Bench Press',    sets:3, reps:'8–12', cue:'Bench at 30–45° · targets upper chest' },
+      { name:'Seated Dumbbell Shoulder Press',  sets:3, reps:'8–12', cue:'Back supported · press straight up' },
+      { name:'Cable Lateral Raises',            sets:3, reps:'12–15', cue:'Lead with elbows · light weight' },
+      { name:'Cable Tricep Pushdowns',          sets:3, reps:'10–15', cue:'Elbows tucked · spread rope at bottom' },
+    ]
+  },
+  {
+    title:'Pull', subtitle:'Back · Rear Delts · Biceps', icon:'🔵',
+    exercises:[
+      { name:'Cable Lat Pulldowns',       sets:4, reps:'8–12',  cue:'Pull to upper chest · elbows down' },
+      { name:'Single-Arm Dumbbell Row',   sets:3, reps:'8–12',  cue:'Knee on bench · row to hip' },
+      { name:'Seated Cable Row',          sets:3, reps:'8–12',  cue:'Squeeze shoulder blades · sit tall' },
+      { name:'Cable Face Pulls',          sets:3, reps:'12–15', cue:'High pulley · elbows HIGH and wide' },
+      { name:'Dumbbell Bicep Curls',      sets:3, reps:'10–15', cue:'No swinging · full range of motion' },
+    ]
+  },
+  {
+    title:'Legs & Core', subtitle:'Knee-Friendly · Glutes · Hamstrings', icon:'🟢',
+    exercises:[
+      { name:'Dumbbell Romanian Deadlifts', sets:4, reps:'8–12',   cue:'Soft knees · hinge at hips · bar stays close' },
+      { name:'Goblet Squats',              sets:3, reps:'8–12',   cue:'Shallow depth if knees ache · chest up' },
+      { name:'Dumbbell Glute Bridges',     sets:3, reps:'10–15',  cue:'Squeeze glutes hard at top · hold 2 sec' },
+      { name:'Cable Pull-Throughs',        sets:3, reps:'10–12',  cue:'Posterior chain · hinge hips forward' },
+      { name:'Plank',                      sets:3, reps:'30–60s', cue:'Core tight · breathe normally · don\'t sag' },
+    ]
+  },
+  {
+    title:'Upper Mix', subtitle:'Full Upper Body · Chest Fly Added', icon:'🟡',
+    exercises:[
+      { name:'Dumbbell Bench Press',       sets:3, reps:'8–12', cue:'Full chest stretch at bottom' },
+      { name:'Cable Lat Pulldowns',        sets:3, reps:'8–12', cue:'Close grip variation today' },
+      { name:'Seated Dumbbell Shoulder Press', sets:3, reps:'8–12', cue:'Control the descent' },
+      { name:'Single-Arm Cable Rows',      sets:3, reps:'10–12', cue:'Pause 1 sec at contraction' },
+      { name:'Cable Chest Flyes',          sets:3, reps:'12', cue:'Arms slightly bent · squeeze at center' },
+    ]
+  },
+  {
+    title:'Full Body', subtitle:'Compound Moves · All Muscle Groups', icon:'🟣',
+    exercises:[
+      { name:'Goblet Squats',              sets:3, reps:'8–12', cue:'Drive through heels · chest up' },
+      { name:'Dumbbell Romanian Deadlifts',sets:3, reps:'8–12', cue:'Feel hamstring stretch · control descent' },
+      { name:'Dumbbell Bench Press',       sets:3, reps:'8–12', cue:'Full press · slight pause at chest' },
+      { name:'Cable Rows',                 sets:3, reps:'8–12', cue:'Squeeze back · control return' },
+      { name:'Seated Dumbbell Shoulder Press', sets:3, reps:'8–12', cue:'Finish strong · arms fully extended' },
+    ]
+  }
+];
+
+// ─── STATE ────────────────────────────────────────────────────────────────
+let currentDay = 0;
+const state = {}; // in-memory tracker: state[dayIdx][exIdx][setIdx] = "weight×reps"
+
+// ─── RENDER ───────────────────────────────────────────────────────────────
+function renderTabs() {
+  const c = document.getElementById('dayTabs');
+  c.innerHTML = PLAN.map((d,i) => `
+    <button class="day-btn ${i===currentDay?'active':''}" onclick="setDay(${i})">
+      <span class="day-label">DAY ${i+1}</span>
+      <span>${d.icon} ${d.title}</span>
+    </button>`).join('');
+}
+
+function savedCount(dayIdx) {
+  if (!state[dayIdx]) return 0;
+  let count = 0;
+  PLAN[dayIdx].exercises.forEach((_,ei) => {
+    if (state[dayIdx][ei]) count++;
+  });
+  return count;
+}
+
+function renderDay() {
+  const content = document.getElementById('mainContent');
+  const day = PLAN[currentDay];
+  const total = day.exercises.length;
+  const done = savedCount(currentDay);
+  const pct = Math.round((done/total)*100);
+
+  let html = `
+  <div class="day-section active">
+    <div class="day-header">
+      <div class="day-icon">${day.icon}</div>
+      <div>
+        <div class="day-title">Day ${currentDay+1}: ${day.title}</div>
+        <div class="day-meta">${day.subtitle}</div>
+      </div>
+      <div class="day-badge">${total} EXERCISES</div>
+    </div>
+    <div class="day-progress">
+      <div class="prog-top">
+        <span class="prog-label">Session Progress</span>
+        <span class="prog-count">${done}/${total} logged</span>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" style="width:${pct}%"></div></div>
+    </div>
+    <div class="hover-hint">📱 Tap GIF area to animate · Tap card to expand</div>
+    <br>`;
+
+  day.exercises.forEach((ex, ei) => {
+    const info = EX[ex.name] || {};
+    const hasImg = info.static || info.gif;
+    const sets = ex.sets;
+    const saved = state[currentDay]?.[ei];
+
+    // Build sets input fields
+    let setInputs = '';
+    for (let s = 0; s < sets; s++) {
+      const savedVal = state[currentDay]?.[ei]?.[s] || '';
+      setInputs += `
+        <div class="set-box">
+          <label>Set ${s+1}</label>
+          <input class="set-input" type="text" placeholder="kg × reps"
+            value="${savedVal}"
+            onchange="saveSet(${currentDay},${ei},${s},this.value)"
+            id="inp-${currentDay}-${ei}-${s}">
+        </div>`;
+    }
+
+    const levelClass = info.level==='Intermediate'?'tag-eq':'tag-beg';
+    const muscles = info.muscles || '';
+    const equip = info.equip || '';
+
+    html += `
+    <div class="ex-card" id="card-${ei}">
+      <div class="ex-top">
+        <div class="ex-thumb" onclick="toggleGif(${ei})">
+          ${hasImg ? `
+            <img class="thumb-static" src="${info.static}" alt="${ex.name}"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='none'; this.parentElement.querySelector('.no-img').style.display='flex'">
+            <img class="thumb-gif" src="${info.gif}" alt="${ex.name} animation"
+              onerror="this.style.display='none'">
+            <div class="no-img" style="display:none">
+              <div class="no-img-icon">${info.emoji||'💪'}</div>
+              <div class="no-img-txt">${ex.name.split(' ').slice(0,2).join(' ')}</div>
+            </div>
+          ` : `
+            <div class="no-img">
+              <div class="no-img-icon">${info.emoji||'💪'}</div>
+              <div class="no-img-txt">${ex.name}</div>
+            </div>
+          `}
+          ${info.url ? `<a class="jefit-link" href="${info.url}" target="_blank">JEFIT ↗</a>` : ''}
+        </div>
+
+        <div class="ex-info">
+          <div>
+            <div class="ex-name">${ex.name}</div>
+            <div class="ex-tags">
+              ${muscles ? muscles.split('·').map(m=>`<span class="tag tag-m">${m.trim()}</span>`).join('') : ''}
+              ${equip ? `<span class="tag tag-eq">${equip}</span>` : ''}
+              <span class="tag ${levelClass}">${info.level||'Beginner'}</span>
+            </div>
+          </div>
+          <div class="ex-sets-row">
+            <span class="sets-pill">${ex.sets} sets × ${ex.reps}</span>
+            ${ex.cue ? `<span class="ex-cue">${ex.cue}</span>` : ''}
+          </div>
+        </div>
+      </div>
+
+      <div class="ex-tracker">
+        <div class="tracker-label">Log Your Sets</div>
+        <div class="sets-inputs">${setInputs}</div>
+        <button class="save-btn ${saved?'saved':''}" onclick="markDone(${currentDay},${ei})"
+          id="btn-${currentDay}-${ei}">
+          ${saved ? '✓ LOGGED' : 'MARK AS DONE'}
+        </button>
+      </div>
+    </div>`;
+  });
+
+  html += `</div>`;
+  content.innerHTML = html;
+}
+
+// ─── ACTIONS ──────────────────────────────────────────────────────────────
+function setDay(i) {
+  currentDay = i;
+  renderTabs();
+  renderDay();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function saveSet(dayIdx, exIdx, setIdx, val) {
+  if (!state[dayIdx]) state[dayIdx] = {};
+  if (!state[dayIdx][exIdx]) state[dayIdx][exIdx] = {};
+  state[dayIdx][exIdx][setIdx] = val;
+}
+
+function markDone(dayIdx, exIdx) {
+  if (!state[dayIdx]) state[dayIdx] = {};
+  if (!state[dayIdx][exIdx]) state[dayIdx][exIdx] = {};
+  // Collect current input values
+  const ex = PLAN[dayIdx].exercises[exIdx];
+  for (let s = 0; s < ex.sets; s++) {
+    const inp = document.getElementById(`inp-${dayIdx}-${exIdx}-${s}`);
+    if (inp && inp.value) state[dayIdx][exIdx][s] = inp.value;
+  }
+  state[dayIdx][exIdx]._done = true;
+
+  const btn = document.getElementById(`btn-${dayIdx}-${exIdx}`);
+  if (btn) { btn.textContent = '✓ LOGGED'; btn.classList.add('saved'); }
+  // Update progress bar
+  const done = savedCount(dayIdx);
+  const total = PLAN[dayIdx].exercises.length;
+  const fill = document.querySelector('.prog-fill');
+  const count = document.querySelector('.prog-count');
+  if (fill) fill.style.width = `${Math.round((done/total)*100)}%`;
+  if (count) count.textContent = `${done}/${total} logged`;
+}
+
+// Toggle GIF on thumb tap (mobile friendly)
+const gifActive = {};
+function toggleGif(ei) {
+  gifActive[ei] = !gifActive[ei];
+  const card = document.getElementById(`card-${ei}`);
+  if (card) {
+    if (gifActive[ei]) card.classList.add('gif-on');
+    else card.classList.remove('gif-on');
+  }
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────
+renderTabs();
+renderDay();
 </script>
 
-<!-- Extra style for tap-to-animate - UNCHANGED -->
+<!-- Extra style for tap-to-animate on mobile -->
 <style>
 .ex-card.gif-on .thumb-gif { opacity:1 !important; }
 .ex-card.gif-on .thumb-static { opacity:0 !important; }
 </style>
-
 <!-- === PWA Service Worker Registration (Added) === -->
 <script>
 if ('serviceWorker' in navigator) {
