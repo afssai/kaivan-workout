@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kaivan-workout-v1';
+const CACHE_NAME = 'kaivan-workout-v2';
 
 const urlsToCache = [
   './',
